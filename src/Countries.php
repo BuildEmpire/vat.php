@@ -43,10 +43,10 @@ class Countries {
         $countries = [];
 
         foreach ($this->countries as $country) {
-            $country->currencyInfo   = $DB->get_record('cscore_country_currency_info', ['id' => $country->id]);
-            $country->region         = $DB->get_record('cscore_regions', ['id' => $country->region_id]);
-            $country->subRegion      = $DB->get_record('cscore_subregions', ['id' => $country->subregion_id]);
-            $country->specificRegion = $DB->get_record('cscore_specificregions', ['id' => $country->specific_region_id]);
+            $country->currencyInfo   = $DB->get_record('cscore_country_currency_info', ['id' => $country->id]) ?: null;
+            $country->region         = $DB->get_record('cscore_regions', ['id' => $country->region_id]) ?: null;
+            $country->subRegion      = $DB->get_record('cscore_subregions', ['id' => $country->subregion_id]) ?: null;
+            $country->specificRegion = $DB->get_record('cscore_specificregions', ['id' => $country->specific_region_id]) ?: null;
 
             $countries[] = $country;
         }

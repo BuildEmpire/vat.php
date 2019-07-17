@@ -67,14 +67,15 @@ class Validator {
      */
     public function validateFormat( $vatNumber ) {
         $vatNumber = strtoupper( $vatNumber );
-        $country = substr( $vatNumber, 0, 2 );
-        $number = substr( $vatNumber, 2 );
+        $country   = substr( $vatNumber, 0, 2 );
+        $number    = substr( $vatNumber, 2 );
 
-        if( ! isset( self::$patterns[$country]) ) {
-            return false;
+        if (!isset(self::$patterns[$country])) {
+            return strlen($vatNumber) >= 8;
         }
 
         $matches = preg_match( '/^' . self::$patterns[$country] . '$/', $number ) > 0;
+
         return $matches;
     }
 

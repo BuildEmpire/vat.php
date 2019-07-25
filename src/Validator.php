@@ -51,7 +51,7 @@ class Validator {
             return false;
         }
 
-        return preg_match( '/^' . self::$patterns['EU'] . '$/', substr($vatNumber, 2) ) > 0;
+        return preg_match( '/^' . self::$patterns['EU'] . '$/', $vatNumber ) > 0;
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 namespace DvK\Vat;
 
-use DvK\Vat\Vies\Client;
-use DvK\Vat\Vies\ViesException;
-
 /**
  * Class Validator
  *

@@ -15,34 +15,8 @@ class Validator {
      * @link http://ec.europa.eu/taxation_customs/vies/faq.html?locale=lt#item_11
      */
     protected static $patterns = array(
-        'AT' => 'U[A-Z\d]{8}',
-        'BE' => '(0\d{9}|\d{10})',
-        'BG' => '\d{9,10}',
-        'CY' => '\d{8}[A-Z]',
-        'CZ' => '\d{8,10}',
-        'DE' => '\d{9}',
-        'DK' => '(\d{2} ?){3}\d{2}',
-        'EE' => '\d{9}',
-        'EL' => '\d{9}',
-        'ES' => '[A-Z]\d{7}[A-Z]|\d{8}[A-Z]|[A-Z]\d{8}',
-        'FI' => '\d{8}',
-        'FR' => '([A-Z]{2}|\d{2})\d{9}',
+        'EU' => '\d{8,}',
         'GB' => '\d{9}|\d{12}|(GD|HA)\d{3}',
-        'HR' => '\d{11}',
-        'HU' => '\d{8}',
-        'IE' => '[A-Z\d]{8}|[A-Z\d]{9}',
-        'IT' => '\d{11}',
-        'LT' => '(\d{9}|\d{12})',
-        'LU' => '\d{8}',
-        'LV' => '\d{11}',
-        'MT' => '\d{8}',
-        'NL' => '\d{9}B\d{2}',
-        'PL' => '\d{10}',
-        'PT' => '\d{9}',
-        'RO' => '\d{2,10}',
-        'SE' => '\d{12}',
-        'SI' => '\d{8}',
-        'SK' => '\d{10}'
     );
 
     /**
@@ -65,18 +39,19 @@ class Validator {
      *
      * @return boolean
      */
-    public function validateFormat( $vatNumber ) {
-        $vatNumber = strtoupper( $vatNumber );
-        $country   = substr( $vatNumber, 0, 2 );
-        $number    = substr( $vatNumber, 2 );
+    public function validateFormat($vatNumber, $countryCode) {
+        $countryCode = strtoupper($countryCode);
+        $country     = strtoupper(substr($vatNumber, 0, 2));
 
-        if (!isset(self::$patterns[$country])) {
-            return strlen($vatNumber) >= 8;
+        if ($countryCode === 'GB') {
+            if ($country === 'GB') {
+                return preg_match( '/^' . self::$patterns['GB'] . '$/', substr($vatNumber, 2) ) > 0;
+            }
+
+            return false;
         }
 
-        $matches = preg_match( '/^' . self::$patterns[$country] . '$/', $number ) > 0;
-
-        return $matches;
+        return preg_match( '/^' . self::$patterns['EU'] . '$/', substr($vatNumber, 2) ) > 0;
     }
 
     /**
@@ -104,7 +79,7 @@ class Validator {
      * @throws Vies\ViesException
      */
     public function validate( $vatNumber ) {
-       return $this->validateFormat( $vatNumber ) && $this->validateExistence( $vatNumber );
+        return $this->validateFormat( $vatNumber ) && $this->validateExistence( $vatNumber );
     }
 
 

@@ -15,7 +15,7 @@ class Validator {
      * @link http://ec.europa.eu/taxation_customs/vies/faq.html?locale=lt#item_11
      */
     protected static $patterns = array(
-        'EU' => '\d{8,}',
+        'EU' => '\[0-9a-zA-Z]{8,}',
         'GB' => '\d{9}|\d{12}|(GD|HA)\d{3}',
     );
 
